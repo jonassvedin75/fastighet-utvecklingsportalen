@@ -56,12 +56,14 @@ const sendAppMetrics = () => {
     metrics.gauge({ name: 'v8.doesZapGarbage', value: v8Stats.does_zap_garbage })
     metrics.gauge({ name: 'v8.numberOfNativeContexts', value: v8Stats.number_of_native_contexts })
     metrics.gauge({ name: 'v8.numberOfDetachedContexts', value: v8Stats.number_of_detached_contexts })
+    console.log(JSON.stringify(v8Stats, null, 2))
 
     const memUsage = process.memoryUsage()
     metrics.gauge({ name: 'processMemoryUsage.heapTotal', value: memUsage.heapTotal })
     metrics.gauge({ name: 'processMemoryUsage.heapUsed', value: memUsage.heapUsed })
     metrics.gauge({ name: 'processMemoryUsage.rss', value: memUsage.rss })
     metrics.gauge({ name: 'processMemoryUsage.external', value: memUsage.external })
+    console.log(JSON.stringify(memUsage, null, 2))
 
     if (taskQueues.size > 0) {
         Array.from(taskQueues.entries()).forEach(([queueName, queue]) => {
