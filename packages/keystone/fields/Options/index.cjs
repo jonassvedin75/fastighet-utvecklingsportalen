@@ -1,4 +1,4 @@
-const { OptionsImplementation, OptionsKnexFieldAdapter, OptionsMongooseFieldAdapter, OptionsPrismaFieldAdapter } = require('./Implementation')
+const { OptionsImplementation, OptionsKnexFieldAdapter, OptionsMongooseFieldAdapter, OptionsPrismaFieldAdapter } = require('./Implementation.cjs')
 
 module.exports = {
     type: 'Options',
@@ -11,9 +11,9 @@ module.exports = {
     views: {
         // Note: You cannot currently import and extend a controller
         // outside this monorepo.
-        Controller: require.resolve('./views/Controller'),
-        Field: require.resolve('./views/Field'),
+        Controller: require.resolve('./views/Controller.cjs'),
+        Field: require.resolve('./views/Field.cjs'),
         // Filter: Text.views.Filter,
-        Cell: require.resolve('./views/Cell'),
+        Cell: require.resolve('./views/Cell.cjs'),
     },
 }

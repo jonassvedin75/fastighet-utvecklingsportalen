@@ -1,4 +1,5 @@
-const { get, set } = require('lodash')
+import lodash from 'lodash'
+const { get, set } = lodash
 
 const HIDE_GRAPHQL_VARIABLES_KEYS = ['secret', 'password', 'data.password', 'data.secret']
 
@@ -20,7 +21,7 @@ function normalizeVariables (object) {
     return JSON.stringify(data)
 }
 
-module.exports = {
+export {
     normalizeQuery,
     normalizeVariables,
 }

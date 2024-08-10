@@ -1,6 +1,7 @@
 {
   "name": "@open-condo/featureflags",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "@growthbook/growthbook": "^1.0.1",
     "@growthbook/growthbook-react": "^1.0.1",
@@ -14,10 +15,14 @@
     "react": ">=16.13.1"
   },
   "exports": {
-    "./*": [
-      "./*.js",
-      "./*.tsx"
-    ]
+    "./FeaturesMiddleware": {
+      "import": "./FeaturesMiddleware.js",
+      "require": "./FeaturesMiddleware.cjs"
+    },
+    "./featureToggleManager": {
+      "import": "./featureToggleManager.js",
+      "require": "./featureToggleManager.cjs"
+    }
   },
   "repository": "https://github.com/open-condo-software/condo/tree/master/packages/featureflags"
 }

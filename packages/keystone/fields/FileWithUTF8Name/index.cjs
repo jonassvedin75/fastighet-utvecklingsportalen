@@ -1,6 +1,6 @@
 const { File } = require('@keystonejs/fields')
 
-const { FileWithUTF8Name } = require('./Implementation')
+const { FileWithUTF8Name } = require('./Implementation.cjs')
 
 module.exports = {
     type: 'FileWithUTF8Name',

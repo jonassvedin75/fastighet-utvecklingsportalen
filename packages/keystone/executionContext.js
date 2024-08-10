@@ -4,11 +4,12 @@
  * If you want to solve your task using Async Local Storage, this module should be extended.
  */
 
-const { AsyncLocalStorage: ExecutionContext } = require('node:async_hooks')
+import { AsyncLocalStorage as ExecutionContext } from 'node:async_hooks'
 
-const { v4 } = require('uuid')
+import { v4 } from 'uuid'
 
-const { getLogger } = require('./logging')
+import { getLogger } from './logging/index.js'
+
 
 const ASYNC_LOCAL_STORAGES = {}
 const logger = getLogger('asyncLocalStorage')
@@ -55,7 +56,7 @@ function _internalGetAsyncLocalStorage (name = 'default') {
 }
 
 
-module.exports = {
+export {
     _internalGetExecutionContextAsyncLocalStorage,
     getExecutionContext,
 }

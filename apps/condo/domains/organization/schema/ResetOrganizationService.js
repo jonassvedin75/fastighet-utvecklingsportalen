@@ -3,7 +3,7 @@
  */
 
 const { GQLError, GQLErrorCode: { BAD_USER_INPUT, INTERNAL_ERROR } } = require('@open-condo/keystone/errors')
-const { checkDvAndSender } = require('@open-condo/keystone/plugins/dvAndSender')
+const { checkDvAndSender } = require('@open-condo/keystone/plugins')
 const { GQLCustomSchema, getById } = require('@open-condo/keystone/schema')
 
 const { AcquiringIntegrationContext } = require('@condo/domains/acquiring/utils/serverSchema')

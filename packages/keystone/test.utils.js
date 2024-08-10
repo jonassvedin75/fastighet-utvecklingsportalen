@@ -1,28 +1,29 @@
-const crypto = require('crypto')
-const fs = require('fs')
-const http = require('http')
-const https = require('https')
-const urlLib = require('url')
+import crypto from 'crypto'
+import fs from 'fs'
+import http from 'http'
+import https from 'https'
+import urlLib from 'url'
 
-const { ApolloClient, ApolloLink, InMemoryCache } = require('@apollo/client')
-const { faker } = require('@faker-js/faker')
-const { createUploadLink } = require('apollo-upload-client')
-const axiosLib = require('axios')
-const axiosCookieJarSupportLib = require('axios-cookiejar-support')
-const express = require('express')
-const falsey = require('falsey')
-const FormData = require('form-data')
-const { gql } = require('graphql-tag')
-const { flattenDeep, fromPairs, toPairs, get, set, isFunction, isEmpty, template } = require('lodash')
-const fetch = require('node-fetch')
-const { CookieJar, Cookie } = require('tough-cookie')
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client'
+import { faker } from '@faker-js/faker'
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
+import axiosLib from 'axios'
+import axiosCookieJarSupportLib from 'axios-cookiejar-support'
+import express from 'express'
+import falsey from 'falsey'
+import FormData from 'form-data'
+import { gql } from 'graphql-tag'
+import lodash from 'lodash'
+import fetch from 'node-fetch'
+import { CookieJar, Cookie } from 'tough-cookie'
 
 
-const conf = require('@open-condo/config')
-const { getTranslations } = require('@open-condo/locales/loader')
+import conf from '@open-condo/config'
+import { getTranslations } from '@open-condo/locales/loader'
 
-const { prepareKeystoneExpressApp } = require('./prepareKeystoneApp')
+import { prepareKeystoneExpressApp } from './prepareKeystoneApp'
 
+const { flattenDeep, fromPairs, toPairs, get, set, isFunction, isEmpty, template } = lodash
 const EXTRA_LOGGING = falsey(get(process, 'env.DISABLE_LOGGING'))
 
 const urlParse = urlLib.parse
@@ -849,7 +850,7 @@ const expectToThrowAccessDeniedToFieldError = async (testFunc, path, field, coun
     })
 }
 
-module.exports = {
+export {
     waitFor,
     isPostgres, isMongo,
     EmptyApp,

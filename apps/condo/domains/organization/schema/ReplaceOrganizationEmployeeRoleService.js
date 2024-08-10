@@ -7,7 +7,7 @@ const { default: RedLock } = require('redlock')
 
 const conf = require('@open-condo/config')
 const { GQLError, GQLErrorCode: { BAD_USER_INPUT, TOO_MANY_REQUESTS } } = require('@open-condo/keystone/errors')
-const { checkDvAndSender } = require('@open-condo/keystone/plugins/dvAndSender')
+const { checkDvAndSender } = require('@open-condo/keystone/plugins')
 const { getRedisClient } = require('@open-condo/keystone/redis')
 const { GQLCustomSchema, getById } = require('@open-condo/keystone/schema')
 

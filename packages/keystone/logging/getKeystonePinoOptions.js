@@ -1,5 +1,5 @@
-const { getLogger } = require('./getLogger')
-const { getReqLoggerContext } = require('./getReqLoggerContext')
+import { getLogger } from './getLogger.js'
+import { getReqLoggerContext } from './getReqLoggerContext.js'
 
 const logger = getLogger('http')
 
@@ -14,6 +14,6 @@ function getKeystonePinoOptions () {
     }
 }
 
-module.exports = {
+export {
     getKeystonePinoOptions,
 }

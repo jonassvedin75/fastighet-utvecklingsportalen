@@ -1,8 +1,9 @@
-const cuid = require('cuid')
-const { get } = require('lodash')
+import cuid from 'cuid'
+import lodash from 'lodash'
 
-const { getLogger } = require('@open-condo/keystone/logging')
+import { getLogger } from '@open-condo/keystone/logging'
 
+const { get } = lodash
 const logger = getLogger('expressErrorHandler')
 
 const expressErrorHandler = (error, req, res, next) => {
@@ -13,6 +14,6 @@ const expressErrorHandler = (error, req, res, next) => {
     return res.status(500).send(`Error! errId=${errId}; reqId=${reqId}`)
 }
 
-module.exports = {
+export {
     expressErrorHandler,
 }

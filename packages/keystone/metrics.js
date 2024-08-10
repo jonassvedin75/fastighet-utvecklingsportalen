@@ -9,13 +9,13 @@
  * To learn more about differences between gauge, histogram and count type metrics, please refer to the datadog documentation
  * https://docs.datadoghq.com/metrics/custom_metrics/dogstatsd_metrics_submission/
  */
-const os = require('os')
+import os from 'os'
 
-const StatsD = require('hot-shots')
+import StatsD from 'hot-shots'
 
-const conf = require('@open-condo/config')
+import conf from '@open-condo/config'
 
-const { getLogger } = require('./logging')
+import { getLogger } from './logging/index.js'
 
 const logger = getLogger('metrics')
 
@@ -72,7 +72,7 @@ const decrement = ({ name, value, tags }) => {
     StatsDClient.decrement(name, value, tags)
 }
 
-module.exports = {
+export {
     gauge,
     increment,
     decrement,

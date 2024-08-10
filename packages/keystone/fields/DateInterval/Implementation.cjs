@@ -1,6 +1,6 @@
 const { Text } = require('@keystonejs/fields')
 
-const { isISO8601Duration } = require('./utils/validations')
+const { isISO8601Duration } = require('./utils/validations.cjs')
 
 class DateInterval extends Text.implementation {
     /*

@@ -1,8 +1,12 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path, {dirname} from 'path'
 
-const dotenv = require('dotenv')
+import dotenv from 'dotenv'
 const DEBUG = false
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const root = path.resolve(path.join(__dirname, '../..'))
 const cwd = process.cwd()
@@ -90,5 +94,4 @@ function getConfig (namespace) {
 
     return new Proxy(baseConfigs, { get: getter, set: setter })
 }
-
-module.exports = getConfig(namespace)
+export default getConfig(namespace)

@@ -7,7 +7,7 @@ const { get } = require('lodash')
 
 const conf = require('@open-condo/config')
 const { GQLError, GQLErrorCode: { BAD_USER_INPUT } } = require('@open-condo/keystone/errors')
-const { checkDvAndSender } = require('@open-condo/keystone/plugins/dvAndSender')
+const { checkDvAndSender } = require('@open-condo/keystone/plugins')
 const { GQLCustomSchema } = require('@open-condo/keystone/schema')
 const { extractReqLocale } = require('@open-condo/locales/extractReqLocale')
 const { i18n } = require('@open-condo/locales/loader')

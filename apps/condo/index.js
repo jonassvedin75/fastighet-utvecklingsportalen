@@ -131,7 +131,7 @@ const lastApp = conf.DISABLE_NEXT_APP ? undefined : new NextApp({ dir: '.' })
 
 const apps = () => {
     return [
-        new HealthCheck({ checks }),
+        // new HealthCheck({ checks }),
         new RequestCache(conf.REQUEST_CACHE_CONFIG ? JSON.parse(conf.REQUEST_CACHE_CONFIG) : { enabled: false }),
         new AdapterCache(conf.ADAPTER_CACHE_CONFIG ? JSON.parse(conf.ADAPTER_CACHE_CONFIG) : { enabled: false }),
         new VersioningMiddleware(),

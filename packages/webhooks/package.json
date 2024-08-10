@@ -19,6 +19,46 @@
   },
   "license": "MIT",
   "exports": {
+    "./constants": {
+      "import": "./constants.js",
+      "require": "./constants.cjs"
+    },
+    "./jest.config": {
+      "import": "./jest.config.js",
+      "require": "./jest.config.cjs"
+    },
+    "./jest.setupSpec": {
+      "import": "./jest.setupSpec.js",
+      "require": "./jest.setupSpec.cjs"
+    },
+    "./tasks": {
+      "import": "./tasks/index.js",
+      "require": "./tasks/index.cjs"
+    },
+    "./tasks/tasks.utils": {
+      "require": "./tasks/tasks.utils.cjs"
+    },
+    "./schema": {
+      "import": "./schema/index.js",
+      "require": "./schema/index.cjs"
+    },
+    "./schema/access": {
+      "require": "./schema/access/index.cjs"
+    },
+    "./schema/utils": {
+      "require": "./schema/utils/index.cjs"
+    },
+    "./schema/gql": {
+      "require": "./schema/gql.cjs"
+    },
+    "./plugins": {
+      "import": "./plugins/index.js",
+      "require": "./plugins/index.cjs"
+    },
+    "./model-validator": {
+      "import": "./model-validator/index.js",
+      "require": "./model-validator/index.cjs"
+    },
     "./": "./"
   },
   "dependencies": {

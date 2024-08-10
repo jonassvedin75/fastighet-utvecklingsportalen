@@ -1,12 +1,14 @@
 // NOTE: same as keystone logger
-const falsey = require('falsey')
-const { toString } = require('lodash')
-const pino = require('pino')
-const serializers = require('pino-std-serializers')
+import falsey from 'falsey'
+import lodash from 'lodash'
+import pino from 'pino'
+import serializers from 'pino-std-serializers'
 
-const { normalizeVariables } = require('./normalize')
+import { normalizeVariables } from './normalize.js'
 
-const { safeFormatError } = require('../apolloErrorFormatter')
+import { safeFormatError } from '../apolloErrorFormatter.js'
+
+const { toString } = lodash
 
 function getLogger (name) {
     return pino({
@@ -33,6 +35,6 @@ function getLogger (name) {
     })
 }
 
-module.exports = {
+export {
     getLogger,
 }

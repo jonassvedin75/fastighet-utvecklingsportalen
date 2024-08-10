@@ -1,4 +1,5 @@
-const { get } = require('lodash')
+import lodash from 'lodash'
+const { get } = lodash
 
 /**
  * Extracts useful data stored in request obtained by preprocessors and other plugins such as:
@@ -38,6 +39,6 @@ function getReqLoggerContext (req) {
     return { reqId, sessionId, user, ip, fingerprint, complexity }
 }
 
-module.exports = {
+export {
     getReqLoggerContext,
 }

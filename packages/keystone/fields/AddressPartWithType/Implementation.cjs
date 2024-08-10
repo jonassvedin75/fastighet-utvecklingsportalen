@@ -1,4 +1,4 @@
-const { JsonImplementation } = require('../Json/Implementation')
+const { JsonImplementation } = require('../Json/Implementation.cjs')
 
 class AddressPartWithTypeImplementation extends JsonImplementation {
     constructor (path, ref) {

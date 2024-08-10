@@ -1,6 +1,6 @@
-const express = require('express')
+import express from 'express'
 
-const { featureToggleManager } = require('@open-condo/featureflags/featureToggleManager')
+import { featureToggleManager } from '@open-condo/featureflags/featureToggleManager'
 
 class FeaturesMiddleware {
     async prepareMiddleware () {
@@ -15,6 +15,6 @@ class FeaturesMiddleware {
     }
 }
 
-module.exports = {
+export {
     FeaturesMiddleware,
 }

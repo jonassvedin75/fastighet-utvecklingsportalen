@@ -1,6 +1,6 @@
 const { Implementation } = require('@keystonejs/fields')
 
-const { JsonKnexFieldAdapter, JsonMongooseFieldAdapter, JsonPrismaFieldAdapter } = require('../Json/Implementation')
+const { JsonKnexFieldAdapter, JsonMongooseFieldAdapter, JsonPrismaFieldAdapter } = require('../Json/Implementation.cjs')
 
 class OptionsImplementation extends Implementation {
     constructor (path, { options }, listConfig) {

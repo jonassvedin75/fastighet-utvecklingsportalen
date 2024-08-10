@@ -6,7 +6,7 @@ const { isArray, map } = require('lodash')
 
 const { GQLErrorCode: { BAD_USER_INPUT } } = require('@open-condo/keystone/errors')
 const { getLogger } = require('@open-condo/keystone/logging')
-const { checkDvAndSender } = require('@open-condo/keystone/plugins/dvAndSender')
+const { checkDvAndSender } = require('@open-condo/keystone/plugins')
 const { GQLCustomSchema, itemsQuery } = require('@open-condo/keystone/schema')
 
 const { DV_VERSION_MISMATCH, WRONG_FORMAT } = require('@condo/domains/common/constants/errors')

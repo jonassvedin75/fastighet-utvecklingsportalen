@@ -1,11 +1,11 @@
-const { GrowthBook } = require('@growthbook/growthbook')
-const { get } = require('lodash')
+import { GrowthBook } from '@growthbook/growthbook'
+import lodash from 'lodash'
 
-const conf = require('@open-condo/config')
-const { fetch } = require('@open-condo/keystone/fetch')
-const { getLogger } = require('@open-condo/keystone/logging')
-const { getRedisClient } = require('@open-condo/keystone/redis')
-const { getFeatureFlag } = require('@open-condo/keystone/test.utils')
+import conf from '@open-condo/config'
+import { fetch } from '@open-condo/keystone/fetch'
+import { getLogger } from '@open-condo/keystone/logging'
+import { getRedisClient } from '@open-condo/keystone/redis'
+import { getFeatureFlag } from '@open-condo/keystone/test.utils'
 
 const logger = getLogger('featureToggleManager')
 
@@ -13,6 +13,7 @@ const FEATURE_TOGGLE_CONFIG = (conf.FEATURE_TOGGLE_CONFIG) ? JSON.parse(conf.FEA
 
 const REDIS_FEATURES_KEY = 'features'
 const FEATURES_EXPIRED_IN_SECONDS = 60
+const { get } = lodash
 
 class FeatureToggleManager {
     get redis () {
@@ -104,6 +105,6 @@ class FeatureToggleManager {
 
 const featureToggleManager = new FeatureToggleManager()
 
-module.exports = {
+export {
     featureToggleManager,
 }

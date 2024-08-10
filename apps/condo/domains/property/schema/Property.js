@@ -8,8 +8,7 @@ const get = require('lodash/get')
 const isEmpty = require('lodash/isEmpty')
 
 const { GQLError, GQLErrorCode: { BAD_USER_INPUT } } = require('@open-condo/keystone/errors')
-const { historical, versioned, uuided, tracked, softDeleted, dvAndSender } = require('@open-condo/keystone/plugins')
-const { addressService } = require('@open-condo/keystone/plugins/addressService')
+const { historical, versioned, uuided, tracked, softDeleted, dvAndSender, addressService } = require('@open-condo/keystone/plugins')
 const { GQLListSchema, find } = require('@open-condo/keystone/schema')
 
 const { CONTEXT_FINISHED_STATUS } = require('@condo/domains/acquiring/constants/context')

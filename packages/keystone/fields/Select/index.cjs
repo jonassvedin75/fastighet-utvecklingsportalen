@@ -1,6 +1,6 @@
 const { Select: KSSelect } = require('@keystonejs/fields')
 
-const { Select } = require('./implementation')
+const { Select } = require('./implementation.cjs')
 
 module.exports = {
     type: 'Select',

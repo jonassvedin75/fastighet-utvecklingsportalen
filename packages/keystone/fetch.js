@@ -1,8 +1,8 @@
-const nodeFetch = require('node-fetch')
+import nodeFetch from 'node-fetch'
 
-const { getExecutionContext } = require('./executionContext')
-const { getLogger } = require('./logging')
-const Mertrics = require('./metrics')
+import { getExecutionContext } from './executionContext'
+import { getLogger } from './logging/index.js'
+import { gauge, increment } from './metrics'
 
 const logger = getLogger('fetch')
 
@@ -47,8 +47,8 @@ async function fetchWithLogger (url, options, extraAttrs) {
 
         logger.info({ msg: 'fetch: request successful', url, reqId: parentReqId, taskId: parentTaskId, path, hostname, status: response.status, elapsedTime })
 
-        Mertrics.increment({ name: FETCH_COUNT_METRIC_NAME, value: 1, tags: { status: response.status, hostname, path } })
-        Mertrics.gauge({ name: FETCH_TIME_METRIC_NAME, value: elapsedTime, tags: { status: response.status, hostname, path } })
+        increment({ name: FETCH_COUNT_METRIC_NAME, value: 1, tags: { status: response.status, hostname, path } })
+        gauge({ name: FETCH_TIME_METRIC_NAME, value: elapsedTime, tags: { status: response.status, hostname, path } })
 
         return response
     } catch (error) {
@@ -57,8 +57,8 @@ async function fetchWithLogger (url, options, extraAttrs) {
 
         logger.error({ msg: 'fetch: failed with error', url, path, hostname, reqId: parentReqId, taskId: parentTaskId, error, elapsedTime })
 
-        Mertrics.increment({ name: FETCH_COUNT_METRIC_NAME, value: 1, tags: { status: 'failed', hostname, path } })
-        Mertrics.gauge({ name: FETCH_TIME_METRIC_NAME, value: elapsedTime, tags: { status: 'failed', hostname, path } })
+        increment({ name: FETCH_COUNT_METRIC_NAME, value: 1, tags: { status: 'failed', hostname, path } })
+        gauge({ name: FETCH_TIME_METRIC_NAME, value: elapsedTime, tags: { status: 'failed', hostname, path } })
 
         throw error
     }
@@ -121,6 +121,6 @@ const fetchWithRetriesAndLogger = async (url, options = {}) => {
     return lastResponse
 }
 
-module.exports = {
-    fetch: fetchWithRetriesAndLogger,
+export {
+    fetchWithRetriesAndLogger as fetch,
 }

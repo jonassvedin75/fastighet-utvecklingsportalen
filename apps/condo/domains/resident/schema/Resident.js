@@ -7,8 +7,7 @@ const isNull = require('lodash/isNull')
 const omit = require('lodash/omit')
 const pick = require('lodash/pick')
 
-const { historical, versioned, uuided, tracked, softDeleted, dvAndSender } = require('@open-condo/keystone/plugins')
-const { addressService } = require('@open-condo/keystone/plugins/addressService')
+const { historical, versioned, uuided, tracked, softDeleted, dvAndSender, addressService } = require('@open-condo/keystone/plugins')
 const { GQLListSchema, getById, getByCondition } = require('@open-condo/keystone/schema')
 
 const { DEFAULT_ACQUIRING_INTEGRATION_NAME } = require('@condo/domains/acquiring/constants/integration')

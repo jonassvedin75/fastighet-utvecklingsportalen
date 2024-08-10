@@ -23,6 +23,6 @@ function parseCorsSettings (settings) {
     return settings
 }
 
-module.exports = {
+export {
     parseCorsSettings,
 }

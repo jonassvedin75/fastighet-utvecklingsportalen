@@ -5,7 +5,7 @@ const { v4: uuid } = require('uuid')
 
 const conf = require('@open-condo/config')
 const { GQLError, GQLErrorCode: { BAD_USER_INPUT } } = require('@open-condo/keystone/errors')
-const { checkDvAndSender } = require('@open-condo/keystone/plugins/dvAndSender')
+const { checkDvAndSender } = require('@open-condo/keystone/plugins')
 const { GQLCustomSchema } = require('@open-condo/keystone/schema')
 
 const { WRONG_PHONE_FORMAT } = require('@condo/domains/common/constants/errors')

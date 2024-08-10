@@ -2,16 +2,120 @@
   "name": "@open-condo/keystone",
   "version": "1.0.0",
   "main": "./index.js",
+  "type": "module",
   "exports": {
+    "./access": {
+      "import": "./access.js",
+      "require": "./access.cjs"
+    },
     "./fields": "./fields/index.js",
-    "./file": "./file/index.js",
-    "./logging": "./logging/index.js",
-    "./plugins": "./plugins/index.js",
-    "./plugins/utils": "./plugins/utils/index.js",
+    "./file": {
+      "import": "./file/index.js",
+      "require": "./file/index.cjs"
+    },
+    "./logging": {
+      "import": "./logging/index.js",
+      "require": "./logging/index.cjs"
+    },
+    "./plugins": "./plugins/index.cjs",
+    "./plugins/utils": "./plugins/utils/index.cjs",
     "./plugins/utils/address-service-client": "./plugins/utils/address-service-client/index.js",
-    "./preprocessors": "./preprocessors/index.js",
-    "./rateLimiting": "./rateLimiting/index.js",
-    "./sentry": "./sentry/index.js",
+    "./preprocessors": {
+      "import": "./preprocessors/index.js",
+      "require": "./preprocessors/index.cjs"
+    },
+    "./rateLimiting": "./rateLimiting/index.cjs",
+    "./sentry": {
+      "import": "./sentry/index.js",
+      "require": "./sentry/index.cjs"
+    },
+    "./apolloErrorFormatter": {
+      "import": "./apolloErrorFormatter.js",
+      "require": "./apolloErrorFormatter.cjs"
+    },
+    "./ipBlackList": {
+      "import": "./ipBlackList.js",
+      "require": "./ipBlackList.cjs"
+    },
+    "./cors.utils": {
+      "import": "./cors.utils.js",
+      "require": "./cors.utils.cjs"
+    },
+    "./healthCheck": {
+      "import": "./healthCheck.js",
+      "require": "./healthCheck.cjs"
+    },
+    "./KSv5v6/v5/prepareKeystone": {
+      "import": "./KSv5v6/v5/prepareKeystone.js",
+      "require": "./KSv5v6/v5/prepareKeystone.cjs"
+    },
+    "./KSv5v6/v5/registerSchema": {
+      "import": "./KSv5v6/v5/registerSchema.js",
+      "require": "./KSv5v6/v5/registerSchema.cjs"
+    },
+    "./prepareKeystoneApp": {
+      "import": "./prepareKeystoneApp.js",
+      "require": "./prepareKeystoneApp.cjs"
+    },
+    "./queryHasField": {
+      "import": "./queryHasField.js",
+      "require": "./queryHasField.cjs"
+    },
+    "./fetch": {
+      "import": "./fetch.js",
+      "require": "./fetch.cjs"
+    },
+    "./executionContext": {
+      "import": "./executionContext.js",
+      "require": "./executionContext.cjs"
+    },
+    "./metrics": {
+      "import": "./metrics.js",
+      "require": "./metrics.cjs"
+    },
+    "./tracing": {
+      "import": "./tracing.js",
+      "require": "./tracing.cjs"
+    },
+    "./redis": {
+      "import": "./redis.js",
+      "require": "./redis.cjs"
+    },
+    "./test.utils": {
+      "import": "./test.utils.js",
+      "require": "./test.utils.cjs"
+    },
+    "./adapterCache": {
+      "require": "./adapterCache.cjs"
+    },
+    "./requestCache": {
+      "import": "./requestCache.js",
+      "require": "./requestCache.cjs"
+    },
+    "./databaseAdapters/utils": {
+      "import": "./databaseAdapters/utils.js",
+      "require": "./databaseAdapters/utils.cjs"
+    },
+    "./databaseAdapters/index": {
+      "import": "./databaseAdapters/index.js",
+      "require": "./databaseAdapters/index.cjs"
+    },
+    "./setup.utils": {
+      "import": "./setup.utils.js",
+      "require": "./setup.utils.cjs"
+    },
+    "./tasks": {
+      "import": "./tasks.js",
+      "require": "./tasks.cjs"
+    },
+    "./schema": {
+      "import": "./schema.js",
+      "require": "./schema.cjs"
+    },
+    "./errors": {
+      "import": "./errors.js",
+      "require": "./errors.cjs"
+    },
     "./*": "./*.js"
   },
   "dependencies": {
@@ -39,7 +143,6 @@
     "@open-condo/locales": "workspace:^",
     "apollo-errors": "^1.9.0",
     "apollo-server-errors": "^3.1.0",
-    "apollo-upload-client": "^14.1.3",
     "axios": "^0.21.2",
     "axios-cookiejar-support": "^1.0.1",
     "big.js": "^6.1.1",
@@ -64,7 +167,7 @@
     "hot-shots": "^10.0.0",
     "inflection": "^1.13.1",
     "ioredis": "^4.28.5",
-    "knex": "^0.95.6",
+    "knex": "2.4.0",
     "lodash": "^4.17.21",
     "lru-cache": "^7.18.3",
     "minimatch": "^5.1.1",

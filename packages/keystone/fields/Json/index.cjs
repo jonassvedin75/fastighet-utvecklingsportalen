@@ -1,6 +1,6 @@
 const { Text } = require('@keystonejs/fields')
 
-const { JsonImplementation, JsonKnexFieldAdapter, JsonMongooseFieldAdapter, JsonPrismaFieldAdapter } = require('./Implementation')
+const { JsonImplementation, JsonKnexFieldAdapter, JsonMongooseFieldAdapter, JsonPrismaFieldAdapter } = require('./Implementation.cjs')
 
 module.exports = {
     type: 'Json',
@@ -13,7 +13,7 @@ module.exports = {
     views: {
         // Note: You cannot currently import and extend a controller
         // outside this monorepo.
-        Controller: require.resolve('./views/Controller'),
+        Controller: require.resolve('./views/Controller.cjs'),
         Field: Text.views.Field,
         // Filter: Text.views.Filter,
         Cell: Text.views.Cell,

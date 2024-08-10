@@ -1,16 +1,17 @@
-const cuid = require('cuid')
-const ensureError = require('ensure-error')
-const { get } = require('lodash')
-const { serializeError } = require('serialize-error')
+import cuid from 'cuid'
+import ensureError from 'ensure-error'
+import lodash from 'lodash'
+import { serializeError } from 'serialize-error'
 
-const { getLogger } = require('./getLogger')
-const { getReqLoggerContext } = require('./getReqLoggerContext')
-const { normalizeQuery, normalizeVariables } = require('./normalize')
+import { getLogger } from './getLogger.js'
+import { getReqLoggerContext } from './getReqLoggerContext.js'
+import { normalizeQuery, normalizeVariables } from './normalize.js'
 
-const { safeFormatError } = require('../apolloErrorFormatter')
+import { safeFormatError } from '../apolloErrorFormatter.js'
 
 const graphqlLogger = getLogger('graphql')
 const graphqlErrorLogger = getLogger('graphqlerror')
+const { get } = lodash
 
 function getGraphQLReqLoggerContext (requestContext) {
     const req = get(requestContext, 'context.req')
@@ -103,7 +104,7 @@ class GraphQLLoggerPlugin {
     }
 }
 
-module.exports = {
+export {
     GraphQLLoggerPlugin,
     getGraphQLReqLoggerContext,
 }

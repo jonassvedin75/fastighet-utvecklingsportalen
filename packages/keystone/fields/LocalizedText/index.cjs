@@ -1,10 +1,10 @@
 const { Text } = require('@keystonejs/fields')
 
-const { DateInterval } = require('./Implementation')
+const { LocalizedText } = require('./Implementation.cjs')
 
 module.exports = {
-    type: 'DateInterval',
-    implementation: DateInterval,
+    type: 'LocalizedText',
+    implementation: LocalizedText,
     views: Text.views,
     adapters: Text.adapters,
 }

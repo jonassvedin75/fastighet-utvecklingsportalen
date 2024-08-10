@@ -125,6 +125,7 @@
     "node-fetch@2.6.0": "^2.6.7",
     "node-fetch@2.6.1": "^2.6.7",
     "@keystonejs/app-admin-ui": "patch:@keystonejs/app-admin-ui@npm:7.5.2#.yarn/patches/@keystonejs-app-admin-ui-npm-7.5.2-ada8bd01c3.patch",
-    "trim@0.0.1": "^0.0.3"
+    "trim@0.0.1": "^0.0.3",
+    "apollo-upload-client": "^18.0.1"
   }
 }

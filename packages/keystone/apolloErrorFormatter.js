@@ -22,15 +22,15 @@
 
  */
 
-const {
-    isInstance: isKeystoneErrorInstance,
-} = require('apollo-errors')
-const { ApolloError, AuthenticationError } = require('apollo-server-errors')
-const ensureError = require('ensure-error')
-const { printError } = require('graphql')
-const { pick, pickBy, identity, toArray, _, toString, get, set, isArray } = require('lodash')
+import { isInstance  as isKeystoneErrorInstance } from 'apollo-errors'
+import { ApolloError, AuthenticationError } from 'apollo-server-errors'
+import ensureError from 'ensure-error'
+import { printError } from 'graphql'
+import lodash from 'lodash'
 
-const conf = require('@open-condo/config')
+import conf from '@open-condo/config'
+
+const { pick, pickBy, identity, toArray, _, toString, get, set, isArray } = lodash
 
 const IS_HIDE_INTERNALS = conf.NODE_ENV === 'production'
 const COMMON_ERROR_CASES = {}
@@ -222,7 +222,7 @@ function throwAuthenticationError () {
     throw new AuthenticationError('No or incorrect authentication credentials')
 }
 
-module.exports = {
+export {
     safeFormatError,
     formatError,
     throwAuthenticationError,

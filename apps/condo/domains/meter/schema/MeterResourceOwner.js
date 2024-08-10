@@ -5,8 +5,7 @@ const { omit } = require('lodash')
 
 const userAccess = require('@open-condo/keystone/access')
 const { GQLError, GQLErrorCode: { FORBIDDEN } } = require('@open-condo/keystone/errors')
-const { historical, versioned, uuided, tracked, softDeleted, dvAndSender } = require('@open-condo/keystone/plugins')
-const { addressService } = require('@open-condo/keystone/plugins/addressService')
+const { historical, versioned, uuided, tracked, softDeleted, dvAndSender, addressService } = require('@open-condo/keystone/plugins')
 const { GQLListSchema } = require('@open-condo/keystone/schema')
 
 const { OPERATION_FORBIDDEN } = require('@condo/domains/common/constants/errors')

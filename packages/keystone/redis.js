@@ -1,8 +1,8 @@
-const IORedis = require('ioredis')
+import IORedis from 'ioredis'
 
-const conf = require('@open-condo/config')
+import conf from '@open-condo/config'
 
-const { getLogger } = require('./logging')
+import { getLogger } from './logging/index.js'
 
 const REDIS_CLIENTS = {}
 const logger = getLogger('redis')
@@ -41,6 +41,6 @@ function getRedisClient (name = 'default', purpose = 'regular', opts = {}) {
     return REDIS_CLIENTS[clientKey]
 }
 
-module.exports = {
+export {
     getRedisClient,
 }

@@ -4,16 +4,18 @@
  * You can now use command like so: `PORT=3002 yarn dev`
  * Or put PORT inside your .env file
  */
-const fs = require('fs')
-const https = require('https')
-const path = require('path')
+import fs from 'fs'
+import https from 'https'
+import path from 'path'
 
-const chalk = require('chalk')
+import chalk from 'chalk'
+import { fileURLToPath } from 'url'
+import { getLogger } from '@open-condo/keystone/logging'
 
-const conf = require('@open-condo/config')
-const { getLogger } = require('@open-condo/keystone/logging')
-const { prepareKeystoneExpressApp } = require('@open-condo/keystone/prepareKeystoneApp')
+import conf from '@open-condo/config'
+import { prepareKeystoneExpressApp } from '@open-condo/keystone/prepareKeystoneApp'
 
+const __filename = fileURLToPath(import.meta.url)
 const PORT = conf['PORT'] || '3000'
 const SPORT = conf['SPORT']
 const SERVER_URL = conf['SERVER_URL']
