@@ -134,14 +134,14 @@ const apps = () => {
     return [
         new HealthCheck({ checks }),
         new RequestCache(conf.REQUEST_CACHE_CONFIG ? JSON.parse(conf.REQUEST_CACHE_CONFIG) : { enabled: false }),
-        new AdapterCache(conf.ADAPTER_CACHE_CONFIG ? JSON.parse(conf.ADAPTER_CACHE_CONFIG) : { enabled: false }),
-        new VersioningMiddleware(),
-        new OIDCMiddleware(),
-        new FeaturesMiddleware(),
-        new PaymentLinkMiddleware(),
-        new UnsubscribeMiddleware(),
+        // new AdapterCache(conf.ADAPTER_CACHE_CONFIG ? JSON.parse(conf.ADAPTER_CACHE_CONFIG) : { enabled: false }),
+        // new VersioningMiddleware(),
+        // new OIDCMiddleware(),
+        // new FeaturesMiddleware(),
+        // new PaymentLinkMiddleware(),
+        // new UnsubscribeMiddleware(),
         FileAdapter.makeFileAdapterMiddleware(),
-        new UserExternalIdentityMiddleware(),
+        // new UserExternalIdentityMiddleware(),
     ]
 }
 
@@ -150,12 +150,11 @@ const extendExpressApp = (app) => {
     app.get('/.well-known/change-password', function (req, res) {
         res.redirect('/auth/forgot')
     })
-    app.use(Sentry.Handlers.errorHandler())
 }
 
-if (!IS_BUILD_PHASE && isMemMonEnabled()) {
-    catchGC()
-}
+// if (!IS_BUILD_PHASE && isMemMonEnabled()) {
+//     catchGC()
+// }
 
 module.exports = prepareKeystone({
     extendExpressApp,
