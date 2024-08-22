@@ -135,13 +135,13 @@ const apps = () => {
         new HealthCheck({ checks }),
         new RequestCache(conf.REQUEST_CACHE_CONFIG ? JSON.parse(conf.REQUEST_CACHE_CONFIG) : { enabled: false }),
         // new AdapterCache(conf.ADAPTER_CACHE_CONFIG ? JSON.parse(conf.ADAPTER_CACHE_CONFIG) : { enabled: false }),
-        // new VersioningMiddleware(),
-        // new OIDCMiddleware(),
-        // new FeaturesMiddleware(),
-        // new PaymentLinkMiddleware(),
-        // new UnsubscribeMiddleware(),
+        new VersioningMiddleware(),
+        new OIDCMiddleware(),
+        new FeaturesMiddleware(),
+        new PaymentLinkMiddleware(),
+        new UnsubscribeMiddleware(),
         FileAdapter.makeFileAdapterMiddleware(),
-        // new UserExternalIdentityMiddleware(),
+        new UserExternalIdentityMiddleware(),
     ]
 }
 
