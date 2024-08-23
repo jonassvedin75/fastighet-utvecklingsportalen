@@ -45,6 +45,7 @@ const IS_ENABLE_DANGEROUS_GRAPHQL_PLAYGROUND = conf.ENABLE_DANGEROUS_GRAPHQL_PLA
 // NOTE(pahaz): it's a magic number tested by @arichiv at https://developer.chrome.com/blog/cookie-max-age-expires/
 const INFINITY_MAX_AGE_COOKIE = 1707195600
 const SERVICE_USER_SESSION_TTL_IN_SEC = 7 * 24 * 60 * 60 // 7 days in sec
+let ALREADY_CREATED = false
 
 const logger = getLogger('uncaughtError')
 
@@ -266,8 +267,9 @@ process.on('unhandledRejection', (err, promise) => {
         throw err
     }
 })
-if (ENABLE_HEAP_SNAPSHOT) {
+if (ENABLE_HEAP_SNAPSHOT && !ALREADY_CREATED) {
     process.on('SIGPIPE', async () => {
+        ALREADY_CREATED = true
         try {
             const labelCreateSnapshot = 'Heap snapshot created in'
 
@@ -300,6 +302,8 @@ if (ENABLE_HEAP_SNAPSHOT) {
         }
         process.exit(0)
     })
+} else {
+    console.log('already created ', ALREADY_CREATED)
 }
 
 
