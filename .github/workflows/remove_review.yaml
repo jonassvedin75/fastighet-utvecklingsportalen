@@ -15,6 +15,9 @@ jobs:
     env:
       KUBE_CONFIG_BASE64_DATA: ${{ secrets.TEST_CLUSTER_KUBE_CONFIG_BASE64_DATA }}
     steps:
+      - name: Just test
+        run: |
+          echo ${GITHUB_REF##*/}
       - name: Set env for namespace
         run: |
           REF_NAME=echo $(${{ github.event.ref }} | sed 's/\_/-/g' | sed "s/'//g" | sed 's/(//g' | sed 's/)//g') 
