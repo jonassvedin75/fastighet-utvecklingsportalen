@@ -116,7 +116,11 @@ module.exports = function (commit) {
 }
 EOF
 
-npx gitexporter ${SOURCE_FOLDER}.config.json
+ls
+
+cat ${SOURCE_FOLDER}.config.json
+
+npx --loglevel verbose gitexporter ${SOURCE_FOLDER}.config.json
 
 echo "[TARGET/SETUP]"
 cd ${TARGET_FOLDER}

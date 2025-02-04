@@ -9,7 +9,7 @@ on:
 jobs:
   gitexporter:
     name: Gitexporter
-    runs-on: self-hosted
+    runs-on: new-one
     steps:
       - name: Setup node environment
         uses: actions/setup-node@v4
@@ -37,4 +37,7 @@ jobs:
           ref: 'main'
       - name: gitexporter.sh
         run: |
+          whoami
+          ls
+          pwd
           bash .github/workflows/gitexporter.sh ignore.gitexporter.source ignore.gitexporter.target
