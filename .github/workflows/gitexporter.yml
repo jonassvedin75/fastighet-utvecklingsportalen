@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'sitozzz/exporter-fixes'
 
 jobs:
   gitexporter:
