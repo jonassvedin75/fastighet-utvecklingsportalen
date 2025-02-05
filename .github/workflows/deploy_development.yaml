@@ -39,9 +39,9 @@ jobs:
       - name: Set env for branch name
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/} | sed 's/\_/-/g')" >> $GITHUB_ENV
       - name: Converge
-        uses: werf/actions/converge@v1.2
+        uses: werf/actions/converge@v2
         with:
-          channel: beta
+          channel: stable
           env: development
           kube-config-base64-data: ${{ secrets.KUBECONFIG_BASE64_DEVELOPMENT_CLUSTER }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
