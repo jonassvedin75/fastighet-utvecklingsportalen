@@ -1,3 +1,5 @@
+const { performance } = require('perf_hooks')
+
 const express = require('express')
 
 const conf = require('@open-condo/config')
@@ -7,9 +9,12 @@ const createConfiguration = require('./configuration')
 const { OIDCBearerTokenKeystonePatch } = require('./OIDCBearerTokenKeystonePatch')
 
 const logger = getLogger('OIDCMiddleware')
+const perfLogger = getLogger('perf')
+
 
 class OIDCMiddleware {
     prepareMiddleware ({ keystone }) {
+        const startTime = performance.now()
         // NOTE(pahaz): #MEMORYLEAK it's memory leak at:
         //       at new CacheableLookup (../../node_modules/oidc-provider/node_modules/cacheable-lookup/source/index.js:91:14)
         //       at Object.<anonymous> (../../node_modules/oidc-provider/lib/helpers/request.js:11:19)
@@ -141,6 +146,8 @@ class OIDCMiddleware {
             }
         })
         app.use('/oidc', provider.callback())
+        perfLogger.info({ msg: 'oidc perf', time: performance.now() - startTime })
+
         return app
     }
 }

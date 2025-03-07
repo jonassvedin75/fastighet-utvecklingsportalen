@@ -1,4 +1,5 @@
 const process = require('node:process')
+const { performance } = require('perf_hooks')
 const v8 = require('v8')
 
 const { AdminUIApp } = require('@keystonejs/app-admin-ui')
@@ -51,6 +52,8 @@ const RATE_LIMIT_CONFIG = JSON.parse(conf['RATE_LIMIT_CONFIG'] || '{}')
 const IS_RATE_LIMIT_DISABLED = conf['DISABLE_RATE_LIMIT'] === 'true'
 
 const logger = getLogger('uncaughtError')
+const perfLogger = getLogger('perf')
+
 
 const sendAppMetrics = () => {
     const v8Stats = v8.getHeapStatistics()
@@ -101,18 +104,24 @@ function prepareKeystone ({ onConnect, extendKeystoneConfig, extendExpressApp, s
     if (schemasPreprocessors && typeof schemasPreprocessors !== 'function') throw new Error('schemasPreprocessors should be a function like `() => [ preprocessor ]`')
     if (tasks && typeof tasks !== 'function') throw new Error('tasks should be a function like `() => [ Task ]`')
     if (apps && typeof apps !== 'function') throw new Error('apps should be a function like `() => [ App | Middleware ]`')
-
+    let startTime = performance.now()
     const keystoneConfig = prepareDefaultKeystoneConfig(conf)
+    perfLogger.info({ msg: 'prepareDefaultKeystoneConfig', time: performance.now() - startTime })
     let extendedKeystoneConfig = {}
     if (extendKeystoneConfig && typeof extendedKeystoneConfig === 'function') {
+        startTime = performance.now()
         extendedKeystoneConfig = extendKeystoneConfig(keystoneConfig)
+        perfLogger.info({ msg: 'extendedKeystoneConfig', time: performance.now() - startTime })
+
     }
 
+    startTime = performance.now()
     const keystone = new Keystone({
         ...keystoneConfig,
         onConnect: async () => onConnect && onConnect(keystone),
         ...extendedKeystoneConfig,
     })
+    perfLogger.info({ msg: 'new Keystone', time: performance.now() - startTime })
 
     // patch access control handler to store skipAccessControl flag in context
     const accessControlContextHandler = keystone._getAccessControlContext
@@ -149,6 +158,7 @@ function prepareKeystone ({ onConnect, extendKeystoneConfig, extendExpressApp, s
         },
     }
 
+    startTime = performance.now()
     const authStrategy = keystone.createAuthStrategy({
         type: ExtendedPasswordAuthStrategy,
         list: 'User',
@@ -166,12 +176,19 @@ function prepareKeystone ({ onConnect, extendKeystoneConfig, extendExpressApp, s
         },
         hooks: composeHooks(defaultAuthStrategyConfigHooks, get(authStrategyOpts, 'hooks', {})),
     })
-
+    perfLogger.info({ msg: 'createAuthStrategy', time: performance.now() - startTime })
     if (!IS_BUILD) {
         // Since tasks may require Redis connection, and Redis variable is not present during build time:
         // We need to register all tasks as they will be possible to execute
+
+        startTime = performance.now()
         registerTaskQueues(queues)
-        if (tasks) registerTasks(tasks())
+        perfLogger.info({ msg: 'createAuthStrategy', time: performance.now() - startTime })
+        if (tasks) {
+            startTime = performance.now()
+            registerTasks(tasks())
+            perfLogger.info({ msg: 'createAuthStrategy', time: performance.now() - startTime })
+        }
     }
 
     if (!IS_BUILD_PHASE) {

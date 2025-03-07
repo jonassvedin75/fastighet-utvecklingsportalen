@@ -1,4 +1,5 @@
 const { existsSync, mkdirSync } = require('fs')
+const { performance } = require('perf_hooks')
 
 const { LocalFileAdapter } = require('@keystonejs/file-adapters')
 const express = require('express')
@@ -7,9 +8,11 @@ const { isEmpty, get } = require('lodash')
 const conf = require('@open-condo/config')
 const { AwsFileAdapter, AWSFilesMiddleware } = require('@open-condo/keystone/fileAdapter/awsFileAdapter')
 const { SberCloudFileAdapter, OBSFilesMiddleware } = require('@open-condo/keystone/fileAdapter/sberCloudFileAdapter')
+const { getLogger } = require('@open-condo/keystone/logging')
 
 const { DEFAULT_FILE_ADAPTER } = require('./constants')
 
+const perfLogger = getLogger('perf')
 
 class NoFileAdapter {
 
@@ -40,11 +43,15 @@ class LocalFilesMiddleware {
     }
 
     prepareMiddleware () {
+        const startTime = performance.now()
+
         // this route serve a static file to the user browser and does not have any operation for csrf attacking
         // also, it used for development purposes only (see conf.FILE_FIELD_ADAPTER configuration)
         // nosemgrep: javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
         const app = express()
         app.use(this._path, express.static(this._src))
+        perfLogger.info({ msg: 'file adapter perf', time: performance.now() - startTime })
+
         return app
     }
 }
@@ -143,18 +150,23 @@ class FileAdapter {
 
     // TODO(pahaz): DOMA-1569 it's better to create just a function. But we already use FileAdapter in many places. I just want to save a backward compatibility
     static makeFileAdapterMiddleware () {
+        const startTime = performance.now()
         const type = conf.FILE_FIELD_ADAPTER || DEFAULT_FILE_ADAPTER
         if (type === 'local') {
             if (!existsSync(conf.MEDIA_ROOT)) {
                 mkdirSync(conf.MEDIA_ROOT)
             }
+            perfLogger.info({ msg: 'fileadapter local perf', time: performance.now() - startTime })
             return new LocalFilesMiddleware({ path: conf.MEDIA_URL, src: conf.MEDIA_ROOT })
         } else if (type === 'sbercloud') {
+            perfLogger.info({ msg: 'fileadapter cloud perf', time: performance.now() - startTime })
             return new OBSFilesMiddleware()
         } else if (type === 'aws') {
+            perfLogger.info({ msg: 'fileadapter aws perf', time: performance.now() - startTime })
             return new AWSFilesMiddleware()
         }
         else {
+            perfLogger.info({ msg: 'fileadapter unknown perf', time: performance.now() - startTime })
             throw new Error('Unknown file field adapter. You need to check FILE_FIELD_ADAPTER')
         }
     }

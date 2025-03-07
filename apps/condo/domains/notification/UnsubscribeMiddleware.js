@@ -1,3 +1,5 @@
+const { performance } = require('perf_hooks')
+
 const express = require('express')
 const { get, isNil } = require('lodash')
 
@@ -15,6 +17,8 @@ const { getAnonymousSettings } = require('@condo/domains/notification/utils/serv
 const { RedisGuard } = require('@condo/domains/user/utils/serverSchema/guards')
 
 const logger = getLogger('unsubscribe/linkHandler')
+const perfLogger = getLogger('perf')
+
 
 const UNSUBSCRIBE_LINK_WINDOW_SIZE = 60 // seconds
 const MAX_UNSUBSCRIBE_LINK_REQUEST_BY_WINDOW = 5
@@ -92,6 +96,8 @@ class UnsubscribeLinkRouter {
 
 class UnsubscribeMiddleware {
     async prepareMiddleware () {
+        const startTime = performance.now()
+
         // this route can not be used for csrf attack (because no cookies and tokens are used in a public route)
         // nosemgrep: javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
         const app = express()
@@ -99,6 +105,7 @@ class UnsubscribeMiddleware {
         const router = new UnsubscribeLinkRouter()
         await router.init()
         app.get(UNSUBSCRIBE_LINK_PATH, router.handleRequest.bind(router))
+        perfLogger.info({ msg: 'unsubscribe perf', time: performance.now() - startTime })
 
         return app
     }

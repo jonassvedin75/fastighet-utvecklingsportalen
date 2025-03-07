@@ -82,6 +82,7 @@
  */
 
 const { X509Certificate } = require('crypto')
+const { performance } = require('perf_hooks')
 const tls = require('tls')
 
 const dayjs = require('dayjs')
@@ -91,6 +92,7 @@ const LRUCache = require('lru-cache')
 const { getDatabaseAdapter } = require('@open-condo/keystone/databaseAdapters/utils')
 
 const { getKVClient } = require('./kv')
+const { getLogger } = require('./logging')
 
 const DEFAULT_HEALTHCHECK_URL = '/server-health'
 const DEFAULT_INTERVAL = 1000 // 1s
@@ -110,6 +112,8 @@ const BAD_REQUEST = 400
 const HEALTHCHECK_OK = 200
 const HEALTHCHECK_ERROR = 500
 const HEALTHCHECK_WARNING = 417
+
+const perfLogger = getLogger('perf')
 
 const getRedisHealthCheck = (clientName = 'healthcheck') => {
     return {
@@ -291,6 +295,7 @@ class HealthCheck {
     }
 
     async prepareMiddleware ({ keystone }) {
+        const startTime = performance.now()
         // this route can not be used for csrf attack (because no cookies and tokens are used in a public route)
         // also, all operations behind route are read only
         // nosemgrep: javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
@@ -344,6 +349,7 @@ class HealthCheck {
             res.status(status).json(result)
         })
 
+        perfLogger.info({ msg: 'healthcheck perf', time: performance.now() - startTime })
         return app
     }
 }

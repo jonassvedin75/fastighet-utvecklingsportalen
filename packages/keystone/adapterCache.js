@@ -49,6 +49,8 @@
  *    We also do not cache lists that have many: true relations or are dependant of this relations.
  */
 
+const { performance } = require('perf_hooks')
+
 const { get, cloneDeep, floor, isEqual } = require('lodash')
 const LRUCache = require('lru-cache')
 
@@ -70,6 +72,8 @@ const ADAPTER_CACHE_HITS_METRIC_NAME = METRIC_PREFIX + '.hits'
 const ADAPTER_CACHE_KEYS_METRIC_NAME = METRIC_PREFIX + '.keys'
 
 const logger = getLogger('adapterCache')
+const perfLogger = getLogger('perf')
+
 
 class AdapterCache {
 
@@ -206,12 +210,15 @@ class AdapterCache {
     }
 
     async prepareMiddleware ({ keystone }) {
+        const startTime = performance.now()
+
         if (this.enabled) {
             await patchKeystoneWithAdapterCache(keystone, this)
             logger.info('Adapter level cache ENABLED')
         } else {
             logger.info('Adapter level cache NOT ENABLED')
         }
+        perfLogger.info({ msg: 'adapter cache perf', time: performance.now() - startTime })
     }
 
     _getHitrate = () => {

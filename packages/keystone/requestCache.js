@@ -26,6 +26,8 @@
  *
  */
 
+const { performance } = require('perf_hooks')
+
 const express = require('express')
 const { get, set, floor } = require('lodash')
 
@@ -38,6 +40,7 @@ const REQUEST_CACHE_TOTAL_METRIC_NAME = REQUEST_CACHE_METRIC_PREFIX + '.total'
 const REQUEST_CACHE_HITS_METRIC_NAME = REQUEST_CACHE_METRIC_PREFIX + '.hits'
 
 const logger = getLogger('request-cache')
+const perfLogger = getLogger('perf')
 
 class RequestCache {
 
@@ -56,6 +59,7 @@ class RequestCache {
 
     // Add a middleware which resets cache after end of each request to avoid memory leak errors
     prepareMiddleware ({ keystone }) {
+        const startTime = performance.now()
         // just a middleware that going to work along with keystone security policies
         // not a part of csrf since not exposing any routes
         // nosemgrep: javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
@@ -75,6 +79,8 @@ class RequestCache {
                 next()
             })
         }
+
+        perfLogger.info({ msg: 'request cache perf', time: performance.now() - startTime })
         return app
     }
 
