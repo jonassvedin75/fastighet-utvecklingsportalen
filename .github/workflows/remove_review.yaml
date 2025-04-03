@@ -23,6 +23,7 @@ jobs:
 
       - name: "Drop review namespace"
         run: |
+          kubectl --version
           kubectl --kubeconfig <(echo $KUBE_CONFIG_BASE64_DATA | base64 --decode) get ns -o jsonpath='{range .items[*]}{.metadata.name} {.metadata.creationTimestamp}{"\n"}{end}' | while read -r name timestamp; do
             echo "$name" | awk -v current_time=$(date +%s) -v three_days_back=$(date +%s -d "3 day ago") -v ns_time=$(date --date="${timestamp}" +%s) '(current_time - ns_time) >(current_time - three_days_back){print $0}';
           done
