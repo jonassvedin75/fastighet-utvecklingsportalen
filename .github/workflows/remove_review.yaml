@@ -15,19 +15,22 @@ jobs:
     env:
       KUBE_CONFIG_BASE64_DATA: ${{ secrets.TEST_CLUSTER_KUBE_CONFIG_BASE64_DATA }}
     steps:
-      - name: Set env for namespace
-        run: |
-          REF_NAME=${{ github.event.ref }}
-          echo "REVIEW_NAMESPACE=$(echo review-${REF_NAME##*/} | sed 's/[^a-zA-Z0-9_-]//g; s/_/-/g')" >> $GITHUB_ENV
-          echo "REVIEW_URL_PREFIX=$(echo ${GITHUB_REF##*/} | sed 's/[^a-zA-Z0-9_-]//g; s/_/-/g' | cut -c -30)" >> $GITHUB_ENV
+#      - name: Set env for namespace
+#        run: |
+#          REF_NAME=${{ github.event.ref }}
+#          echo "REVIEW_NAMESPACE=$(echo review-${REF_NAME##*/} | sed 's/[^a-zA-Z0-9_-]//g; s/_/-/g')" >> $GITHUB_ENV
+#          echo "REVIEW_URL_PREFIX=$(echo ${GITHUB_REF##*/} | sed 's/[^a-zA-Z0-9_-]//g; s/_/-/g' | cut -c -30)" >> $GITHUB_ENV
 
       - name: "Drop review namespace"
         run: |
-          kubectl --kubeconfig <(echo $KUBE_CONFIG_BASE64_DATA | base64 --decode) get ns ${{ env.REVIEW_NAMESPACE }} > /dev/null 2>&1 && \
-          kubectl --kubeconfig <(echo $KUBE_CONFIG_BASE64_DATA | base64 --decode) delete namespace ${{ env.REVIEW_NAMESPACE }} || \
-          echo "namespace ${{ env.REVIEW_NAMESPACE }} does not exist"
+          kubectl --kubeconfig <(echo $KUBE_CONFIG_BASE64_DATA | base64 --decode) get ns -o jsonpath='{range .items[*]}{.metadata.name} {.metadata.creationTimestamp}{"\n"}{end}' | while read -r name timestamp; do
+            echo "$name" | awk -v current_time=$(date +%s) -v three_days_back=$(date +%s -d "3 day ago") -v ns_time=$(date --date="${timestamp}" +%s) '(current_time - ns_time) >(current_time - three_days_back){print $0}';
+          done
+#          kubectl --kubeconfig <(echo $KUBE_CONFIG_BASE64_DATA | base64 --decode) get ns ${{ env.REVIEW_NAMESPACE }} > /dev/null 2>&1 && \
+#          kubectl --kubeconfig <(echo $KUBE_CONFIG_BASE64_DATA | base64 --decode) delete namespace ${{ env.REVIEW_NAMESPACE }} || \
+#          echo "namespace ${{ env.REVIEW_NAMESPACE }} does not exist"
 
-      - name: "Drop review databases"
-        run: |
-          psql --version
-          psql -d ${{ secrets.TEST_CLUSTER_DB_CREDENTIALS }} -Atqc "SELECT 'DROP DATABASE ' || quote_ident(datname) || ';' FROM pg_database WHERE datname like '${{ env.REVIEW_URL_PREFIX }}%';" | psql -d ${{ secrets.TEST_CLUSTER_DB_CREDENTIALS }}
+#      - name: "Drop review databases"
+#        run: |
+#          psql --version
+#          psql -d ${{ secrets.TEST_CLUSTER_DB_CREDENTIALS }} -Atqc "SELECT 'DROP DATABASE ' || quote_ident(datname) || ';' FROM pg_database WHERE datname like '${{ env.REVIEW_URL_PREFIX }}%';" | psql -d ${{ secrets.TEST_CLUSTER_DB_CREDENTIALS }}
