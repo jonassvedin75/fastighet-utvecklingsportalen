@@ -18,19 +18,11 @@ RUN groupadd -r app --gid=999 && \
 
 WORKDIR /app
 
-# Copy package files first for better caching
-COPY --chown=app:app package.json yarn.lock .yarnrc.yml ./
-COPY --chown=app:app .yarn .yarn/
-
-# Copy workspace package.json files
-COPY --chown=app:app apps/condo/package.json apps/condo/package.json
-COPY --chown=app:app packages/*/package.json packages/*/
-
-# Install dependencies with increased timeout
-RUN yarn install --immutable --network-timeout 300000
-
-# Copy source code
+# Copy everything at once (simpler for monorepos)
 COPY --chown=app:app . .
+
+# Install dependencies with increased timeout  
+RUN yarn install --immutable --network-timeout 300000
 
 # Build specific app only to save time
 RUN yarn workspace @app/condo build:deps
