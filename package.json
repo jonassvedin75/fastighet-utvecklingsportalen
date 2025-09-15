@@ -21,7 +21,11 @@
     "lint:deps": "turbo boundaries --filter=!'@app/condo' --filter=!'@open-condo/codegen' && cross-env NODE_OPTIONS=\"--max_old_space_size=6144\" knip",
     "lint": "yarn lint:code && yarn lint:styles && yarn lint:translations && yarn lint:deps",
     "createapp": "node ./bin/createapp",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate:condo": "yarn workspace @app/condo migrate",
+    "start:condo:web": "yarn workspace @app/condo start",
+    "start:condo:worker": "yarn workspace @app/condo worker",
+    "start:condo:combo": "yarn run migrate:condo && concurrently -k -n WEB,WORKER \"yarn run start:condo:web\" \"yarn run start:condo:worker\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -36,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "commander": "^11.0.0",
+    "concurrently": "^9.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",

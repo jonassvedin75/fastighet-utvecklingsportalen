@@ -35,9 +35,10 @@ dayjs.extend(isBetween)
 
 const IS_BUILD_PHASE = conf.PHASE === 'build'
 
-// TODO(zuch): DOMA-2990: add FILE_FIELD_ADAPTER to env during build phase
-if (IS_BUILD_PHASE) {
-    process.env.FILE_FIELD_ADAPTER = 'local' // Test
+// Ensure local file adapter during build if not explicitly configured via env.
+// Avoids unexpected default to 'sbercloud' in local / CI builds without FILE_FIELD_ADAPTER.
+if (IS_BUILD_PHASE && !process.env.FILE_FIELD_ADAPTER) {
+    process.env.FILE_FIELD_ADAPTER = 'local'
 }
 
 const schemas = () => [
