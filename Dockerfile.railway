@@ -1,0 +1,45 @@
+FROM node:22-bookworm-slim
+
+# Install Python and system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN python3 -m pip install 'psycopg2-binary==2.9.10' 'Django==5.2'
+
+# Create app user
+RUN groupadd -r app --gid=999 && \
+    useradd --system --create-home --home /app --gid 999 --uid=999 --shell /bin/bash app
+
+WORKDIR /app
+
+# Copy package files first for better caching
+COPY --chown=app:app package.json yarn.lock .yarnrc.yml ./
+COPY --chown=app:app .yarn .yarn/
+
+# Copy workspace package.json files
+COPY --chown=app:app apps/condo/package.json apps/condo/package.json
+COPY --chown=app:app packages/*/package.json packages/*/
+
+# Install dependencies with increased timeout
+RUN yarn install --immutable --network-timeout 300000
+
+# Copy source code
+COPY --chown=app:app . .
+
+# Build specific app only to save time
+RUN yarn workspace @app/condo build:deps
+RUN yarn workspace @app/condo build
+
+# Set runtime environment
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+USER app:app
+
+CMD ["yarn", "workspace", "@app/condo", "start"]
