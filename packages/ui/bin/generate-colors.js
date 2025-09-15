@@ -107,7 +107,8 @@ async function generateColorTypes () {
  */
 async function lintColorTypes () {
     try {
-        await exec(`cd ${ROOT_PATH} && yarn run eslint packages/ui/src/colors/colors.ts --fix`)
+        // NOTE: Use exec with cwd to avoid issues with spaces in path names (e.g. "1. VS CODE PROJECTS")
+        await exec('yarn run eslint packages/ui/src/colors/colors.ts --fix', { cwd: ROOT_PATH })
     } catch (error) {
         throw new Error(`Lint error occurred: ${error.message}`)
     }
