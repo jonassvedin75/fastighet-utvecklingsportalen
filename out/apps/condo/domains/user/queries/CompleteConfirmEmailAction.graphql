@@ -1,3 +1,0 @@
-mutation completeConfirmEmailAction($data: CompleteConfirmEmailActionInput!) {
-    result: completeConfirmEmailAction(data: $data) { status }
-}

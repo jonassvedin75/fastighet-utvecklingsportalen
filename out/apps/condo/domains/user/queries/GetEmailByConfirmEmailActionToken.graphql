@@ -1,3 +1,0 @@
-query getEmailByConfirmEmailActionToken($data: GetEmailByConfirmEmailActionTokenInput!) {
-    result: getEmailByConfirmEmailActionToken(data: $data) { email, isEmailVerified }
-}
